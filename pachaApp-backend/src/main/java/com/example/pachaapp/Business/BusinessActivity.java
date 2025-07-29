@@ -64,7 +64,6 @@ public class BusinessActivity {
         
         repoActivity.save(tActivity);
         
-        // Actualizar el DTO con los valores generados
         dtoActivity.setIdActividad(activityId);
         dtoActivity.setEstado("iniciado");
         dtoActivity.setFechaRegistro(now);

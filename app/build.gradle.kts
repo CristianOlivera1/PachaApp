@@ -42,9 +42,8 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    //componentes personalizados
     implementation("com.google.android.material:material:1.9.0")
-    // Google Sign-In (sin Firebase)
-    implementation ("com.google.android.gms:play-services-auth:20.7.0")
 
     // Para llamadas HTTP
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -59,7 +58,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
     implementation("com.google.firebase:firebase-analytics")
 
-    //glide
+    //glide imagenes
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 }

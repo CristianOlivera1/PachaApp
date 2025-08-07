@@ -107,9 +107,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:hint="Descripción *"
-                        app:boxBackgroundColor="@color/dark_gray"
-                        app:boxStrokeColor="@color/cyan"
-                        app:hintTextColor="@color/white">
+                        app:boxBackgroundColor="@color/white"
+                        app:boxStrokeColor="@color/cyan">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDescripcionEdit"
@@ -117,8 +116,7 @@
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine"
                             android:maxLines="3"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/light_gray" />
+                            android:textColor="@color/black"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,17 +126,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:hint="Lugar (opcional)"
-                        app:boxBackgroundColor="@color/dark_gray"
-                        app:boxStrokeColor="@color/cyan"
-                        app:hintTextColor="@color/light_gray">
+                        app:boxBackgroundColor="@color/white"
+                        app:boxStrokeColor="@color/cyan">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLugarEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/light_gray" />
+                            android:textColor="@color/black" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 

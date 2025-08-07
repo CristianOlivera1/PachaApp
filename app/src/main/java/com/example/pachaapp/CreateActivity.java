@@ -22,7 +22,6 @@ import com.example.pachaapp.clas.Activity;
 import com.example.pachaapp.clas.ApiClient;
 import com.example.pachaapp.clas.ApiResponse;
 import com.example.pachaapp.clas.ApiService;
-import com.example.pachaapp.clas.DebugHelper;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
@@ -55,8 +54,6 @@ public class CreateActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        DebugHelper.testTimestampParsing();
 
         initializeViews();
         getUserId();

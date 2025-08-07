@@ -2,9 +2,12 @@ package com.example.pachaapp.clas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.pachaapp.R;
 import com.example.pachaapp.detailActivity;
 
@@ -19,6 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
     private List<Activity> activities;
@@ -49,8 +57,12 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         if (activity.getLugar() != null && !activity.getLugar().isEmpty()) {
             holder.tvLugar.setText(activity.getLugar());
             holder.tvLugar.setVisibility(View.VISIBLE);
+            
+            // Cargar datos meteorológicos
+            loadWeatherData(activity, holder);
         } else {
             holder.tvLugar.setVisibility(View.GONE);
+            holder.weatherLayout.setVisibility(View.GONE);
         }
 
         // Cambiar color según el estado
@@ -83,6 +95,65 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         this.activities = newActivities;
         notifyDataSetChanged();
     }
+    
+    private void loadWeatherData(Activity activity, ActivityViewHolder holder) {
+        Log.d("WeatherAdapter", "Intentando cargar clima para: " + activity.getLugar());
+        
+        // Hacer petición a la API del clima
+        Log.d("WeatherAdapter", "Haciendo petición a API del clima");
+        WeatherApiService weatherService = WeatherApiClient.getWeatherApiService();
+        Call<WeatherResponse> call = weatherService.getWeatherByCity(
+            activity.getLugar(), 
+            WeatherApiService.API_KEY, 
+            "metric", 
+            "es"
+        );
+        
+        call.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                Log.d("WeatherAdapter", "Respuesta de API clima: " + response.code());
+                if (response.isSuccessful() && response.body() != null) {
+                    WeatherResponse weatherData = response.body();
+                    Log.d("WeatherAdapter", "Datos del clima obtenidos exitosamente para: " + weatherData.getName());
+                    displayWeatherData(weatherData, holder);
+                } else {
+                    Log.w("WeatherAdapter", "Error al obtener clima para: " + activity.getLugar() + " Code: " + response.code());
+                    holder.weatherLayout.setVisibility(View.GONE);
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                Log.e("WeatherAdapter", "Error de conexión API clima: " + t.getMessage());
+                holder.weatherLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+    
+    private void displayWeatherData(WeatherResponse weatherData, ActivityViewHolder holder) {
+        Log.d("WeatherAdapter", "Mostrando datos del clima en UI");
+        if (weatherData.getWeather() != null && !weatherData.getWeather().isEmpty()) {
+            WeatherResponse.Weather weather = weatherData.getWeather().get(0);
+            WeatherResponse.Main main = weatherData.getMain();
+            
+            Log.d("WeatherAdapter", "Temperatura: " + main.getTempFormatted() + ", Icono: " + weather.getIcon());
+            
+            // Cargar icono del clima
+            String iconUrl = weather.getIconUrl();
+            Glide.with(context)
+                .load(iconUrl)
+                .into(holder.ivWeatherIcon);
+            
+            // Mostrar temperatura
+            holder.tvTemperature.setText(main.getTempFormatted());
+            holder.weatherLayout.setVisibility(View.VISIBLE);
+            Log.d("WeatherAdapter", "Información meteorológica mostrada correctamente");
+        } else {
+            Log.w("WeatherAdapter", "Datos del clima vacíos o nulos");
+            holder.weatherLayout.setVisibility(View.GONE);
+        }
+    }
 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
@@ -90,6 +161,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         TextView tvLugar;
         TextView tvFecha;
         TextView tvEstado;
+        LinearLayout weatherLayout;
+        ImageView ivWeatherIcon;
+        TextView tvTemperature;
 
         public ActivityViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +172,9 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
             tvLugar = itemView.findViewById(R.id.tvLugar);
             tvFecha = itemView.findViewById(R.id.tvFecha);
             tvEstado = itemView.findViewById(R.id.tvEstado);
+            weatherLayout = itemView.findViewById(R.id.weatherLayout);
+            ivWeatherIcon = itemView.findViewById(R.id.ivWeatherIcon);
+            tvTemperature = itemView.findViewById(R.id.tvTemperature);
         }
     }
 }

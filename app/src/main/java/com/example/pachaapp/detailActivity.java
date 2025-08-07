@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +20,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.pachaapp.clas.Activity;
 import com.example.pachaapp.clas.ApiClient;
 import com.example.pachaapp.clas.ApiResponse;
 import com.example.pachaapp.clas.ApiService;
+import com.example.pachaapp.clas.WeatherApiClient;
+import com.example.pachaapp.clas.WeatherApiService;
+import com.example.pachaapp.clas.WeatherResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,6 +42,11 @@ public class detailActivity extends AppCompatActivity {
     private TextView tvDescripcionDetail, tvLugarDetail, tvFechaDetail, tvEstadoDetail;
     private Button btnMarcarCompletado, btnEditar, btnEliminar;
     private ProgressBar progressBarAction;
+    
+    // Elementos para información meteorológica
+    private LinearLayout weatherDetailLayout;
+    private ImageView ivWeatherIconDetail;
+    private TextView tvTempDetail, tvWeatherDescDetail, tvTempMinMax, tvHumidity, tvPressure;
     
     private String idActividad;
     private String descripcion;
@@ -61,6 +72,7 @@ public class detailActivity extends AppCompatActivity {
         getUserId();
         getIntentData();
         setupUI();
+        loadWeatherData(); // Cargar datos meteorológicos
     }
 
     private void initializeViews() {
@@ -73,6 +85,15 @@ public class detailActivity extends AppCompatActivity {
         btnEditar = findViewById(R.id.btnEditar);
         btnEliminar = findViewById(R.id.btnEliminar);
         progressBarAction = findViewById(R.id.progressBarAction);
+        
+        // Elementos meteorológicos
+        weatherDetailLayout = findViewById(R.id.weatherDetailLayout);
+        ivWeatherIconDetail = findViewById(R.id.ivWeatherIconDetail);
+        tvTempDetail = findViewById(R.id.tvTempDetail);
+        tvWeatherDescDetail = findViewById(R.id.tvWeatherDescDetail);
+        tvTempMinMax = findViewById(R.id.tvTempMinMax);
+        tvHumidity = findViewById(R.id.tvHumidity);
+        tvPressure = findViewById(R.id.tvPressure);
         
         dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
     }
@@ -243,5 +264,68 @@ public class detailActivity extends AppCompatActivity {
     public void retroceder(View v) {
         Intent intent = new Intent(this, listActivity.class);
         startActivity(intent);
+    }
+    
+    private void loadWeatherData() {
+        Log.d("WeatherDetail", "Cargando datos meteorológicos para: " + lugar);
+        if (lugar == null || lugar.trim().isEmpty()) {
+            Log.d("WeatherDetail", "No hay lugar especificado, ocultando sección meteorológica");
+            weatherDetailLayout.setVisibility(View.GONE);
+            return;
+        }
+        
+        Log.d("WeatherDetail", "Haciendo petición a API del clima para: " + lugar);
+        WeatherApiService weatherService = WeatherApiClient.getWeatherApiService();
+        Call<WeatherResponse> call = weatherService.getWeatherByCity(lugar, WeatherApiService.API_KEY, "metric", "es");
+        
+        call.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                Log.d("WeatherDetail", "Respuesta de API clima: " + response.code());
+                if (response.isSuccessful() && response.body() != null) {
+                    WeatherResponse weatherData = response.body();
+                    Log.d("WeatherDetail", "Datos del clima obtenidos exitosamente para: " + weatherData.getName());
+                    displayWeatherData(weatherData);
+                } else {
+                    Log.w("WeatherDetail", "Error al obtener clima para: " + lugar + " Code: " + response.code());
+                    weatherDetailLayout.setVisibility(View.GONE);
+                }
+            }
+            
+            @Override
+            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                Log.e("WeatherDetail", "Error de conexión API clima: " + t.getMessage());
+                weatherDetailLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+    
+    private void displayWeatherData(WeatherResponse weatherData) {
+        Log.d("WeatherDetail", "Mostrando datos del clima en detalle");
+        if (weatherData.getWeather() != null && !weatherData.getWeather().isEmpty()) {
+            WeatherResponse.Weather weather = weatherData.getWeather().get(0);
+            WeatherResponse.Main main = weatherData.getMain();
+            
+            Log.d("WeatherDetail", "Datos: Temp=" + main.getTempFormatted() + ", Desc=" + weather.getDescription());
+            
+            // Cargar icono del clima
+            String iconUrl = weather.getIconUrl();
+            Glide.with(this)
+                .load(iconUrl)
+                .into(ivWeatherIconDetail);
+            
+            // Mostrar datos
+            tvTempDetail.setText(main.getTempFormatted());
+            tvWeatherDescDetail.setText(weather.getDescription());
+            tvTempMinMax.setText(main.getTempMinFormatted() + "/" + main.getTempMaxFormatted());
+            tvHumidity.setText(main.getHumidity() + "%");
+            tvPressure.setText(main.getPressure() + " hPa");
+            
+            weatherDetailLayout.setVisibility(View.VISIBLE);
+            Log.d("WeatherDetail", "Información meteorológica mostrada correctamente en detalle");
+        } else {
+            Log.w("WeatherDetail", "Datos del clima vacíos o nulos en detalle");
+            weatherDetailLayout.setVisibility(View.GONE);
+        }
     }
 }

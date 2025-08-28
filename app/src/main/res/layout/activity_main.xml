@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,39 +7,58 @@
     android:layout_height="match_parent"
     android:background="@drawable/backgroun_pacha"
     tools:context=".MainActivity">
-
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="78dp"
         android:gravity="end"
         android:orientation="horizontal"
         android:paddingRight="30dp"
         android:paddingTop="30dp"
+        android:paddingLeft="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="1dp">
 
-        <!-- Botón: Agregar -->
-        <ImageButton
-            android:id="@+id/buttonBuscar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Buscar ciudad"
-            android:scaleType="centerInside"
-            android:src="@drawable/iconobuscar" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/lugar"/>
 
-        <ImageButton
-            android:id="@+id/buttonAgregar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="12dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Agregar actividad"
-            android:onClick="listarActividades"
-            android:scaleType="centerInside"
-            android:src="@drawable/iconomas" />
+             <Spinner
+                 android:id="@+id/spinnerCiudades"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                 android:spinnerMode="dropdown"
+                 android:popupBackground="@drawable/spinner_popup_background"/>
+
+
+             <ImageButton
+                 android:id="@+id/buttonBuscar"
+                 android:layout_width="32dp"
+                 android:layout_height="32dp"
+                 android:background="@android:color/transparent"
+                 android:contentDescription="Buscar ciudad"
+                 android:onClick="Busca"
+                 android:scaleType="centerInside"
+                 android:src="@drawable/iconobuscar" />
+
+             <ImageButton
+                 android:id="@+id/buttonAgregar"
+                 android:layout_width="32dp"
+                 android:layout_height="32dp"
+                 android:layout_marginStart="12dp"
+                 android:background="@android:color/transparent"
+                 android:contentDescription="Agregar actividad"
+                 android:onClick="listarActividades"
+                 android:scaleType="centerInside"
+                 android:src="@drawable/iconomas" />
 
         <ImageButton
             android:id="@+id/buttonEngranaje"
@@ -54,5 +73,214 @@
 
     </LinearLayout>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false"
+            app:cardBackgroundColor="#30000000">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center"
+                android:background="@android:color/transparent">
+
+                <ImageView
+                    android:id="@+id/imageViewClima"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_marginBottom="10dp" />
+
+                <TextView
+                    android:id="@+id/textViewClima"
+                    android:layout_width="25mm"
+                    android:layout_height="25mm"
+                    android:layout_marginTop="8dp"
+                    android:text="Datos del clima aparecerán aquí"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:lineSpacingExtra="6dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false"
+            app:cardBackgroundColor="#30000000">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⏰ Pronóstico por horas"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/listaHoras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center_horizontal"
+                    android:background="@android:color/transparent"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardPreventCornerOverlap="false"
+            app:cardBackgroundColor="#30000000">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📅 Pronóstico por días"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/listaDias"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center_horizontal"
+                    android:background="@android:color/transparent"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <GridLayout
+            android:id="@+id/gridDatos"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="#30000000">
+
+                <TextView
+                    android:id="@+id/textSensacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="🌡️ Sensación"
+                    android:textSize="16sp"
+                    android:textColor="#fff"
+                    android:lineSpacingExtra="6dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Humedad -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="#30000000">
+
+                <TextView
+                    android:id="@+id/textHumedad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="💧 Humedad"
+                    android:textSize="16sp"
+                    android:textColor="#fff"
+                    android:lineSpacingExtra="6dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Viento -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="#30000000">
+
+                <TextView
+                    android:id="@+id/textViento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="💨 Viento"
+                    android:textSize="16sp"
+                    android:textColor="#fff"
+                    android:lineSpacingExtra="6dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Nubes -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="true"
+                app:cardPreventCornerOverlap="false"
+                app:cardBackgroundColor="#30000000">
+
+                <TextView
+                    android:id="@+id/textNubes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="☁️ Nubes"
+                    android:textSize="16sp"
+                    android:textColor="#fff"
+                    android:lineSpacingExtra="6dp"/>
+            </androidx.cardview.widget.CardView>
+
+        </GridLayout>
+
+    </LinearLayout>
+</ScrollView>

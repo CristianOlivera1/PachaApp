@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +22,32 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".DetalleBusqueda"
+            android:exported="false" />
+        <activity
+            android:name=".detallebusqueda"
+            android:exported="false" /> <!-- notificacion -->
+        <service
+            android:name=".clas.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service> <!-- Metadatos para notificaciones por defecto -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logopacha" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/cyan" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="pacha_activities" />
+
+        <activity
+            android:name=".BuscarActivity"
+            android:exported="false" />
+        <activity
             android:name=".detailActivity"
             android:exported="false" />
         <activity
@@ -27,9 +58,6 @@
             android:exported="false" />
         <activity
             android:name=".CreateActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Register2"
             android:exported="false" />
         <activity
             android:name=".Configuration"

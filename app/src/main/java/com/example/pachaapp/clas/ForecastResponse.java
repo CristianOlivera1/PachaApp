@@ -1,4 +1,4 @@
-package com.example.my;
+package com.example.pachaapp.clas;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.pachaapp.DetalleBusqueda;
 import com.example.pachaapp.R;
-import com.example.pachaapp.detailActivity;
 
 import java.util.List;
 
@@ -116,7 +115,7 @@ public class BusquedaAdapter extends RecyclerView.Adapter<BusquedaAdapter.Busque
         });
     }
 
-    private void displayWeatherData(WeatherResponse weatherData, BusquedaAdapter.BusquedaViewHolder holder) {
+    private void displayWeatherData(WeatherResponse weatherData, BusquedaViewHolder holder) {
         Log.d("WeatherAdapter", "Mostrando datos del clima en UI");
         if (weatherData.getWeather() != null && !weatherData.getWeather().isEmpty()) {
             WeatherResponse.Weather weather = weatherData.getWeather().get(0);

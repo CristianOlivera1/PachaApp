@@ -134,7 +134,7 @@ public class Register extends AppCompatActivity {
                                         Toast.makeText(Register.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
 
                                         // Ir a la siguiente actividad
-                                        Intent intent = new Intent(Register.this, Configuration.class);
+                                        Intent intent = new Intent(Register.this, MainActivity.class);
                                         startActivity(intent);
                                         finish();
                                     } else {

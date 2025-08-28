@@ -71,7 +71,6 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Descripción -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -172,7 +171,6 @@
 
     </ScrollView>
 
-    <!-- Botón Crear -->
     <Button
         android:id="@+id/btnCrear"
         android:layout_width="0dp"
@@ -187,7 +185,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBarCreate"
         android:layout_width="wrap_content"

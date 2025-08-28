@@ -10,8 +10,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://192.168.18.58:8081/";
-    // private static final String BASE_URL = "http://tu-servidor.com:8080/"; // Para dispositivo real
+    private static final String BASE_URL = "http://192.168.184.38:8081/";
     private static Retrofit retrofit;
 
     public static Retrofit getClient() {

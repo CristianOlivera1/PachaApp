@@ -43,7 +43,6 @@ public class WeatherResponse {
     @SerializedName("cod")
     private int cod;
 
-    // Getters
     public Coord getCoord() { return coord; }
     public List<Weather> getWeather() { return weather; }
     public String getBase() { return base; }
@@ -58,7 +57,6 @@ public class WeatherResponse {
     public String getName() { return name; }
     public int getCod() { return cod; }
 
-    // Clases internas
     public static class Coord {
         @SerializedName("lon")
         private double lon;

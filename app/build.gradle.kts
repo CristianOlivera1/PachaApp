@@ -61,4 +61,11 @@ dependencies {
     //glide imagenes
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+
+    //notificacion
+    implementation ("com.google.firebase:firebase-messaging:23.4.0")
+    //Joselyn
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 }

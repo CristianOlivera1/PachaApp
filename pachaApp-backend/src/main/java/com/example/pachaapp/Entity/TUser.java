@@ -37,4 +37,10 @@ public class TUser implements Serializable {
     @Column(name = "firebaseUid") 
     private String firebaseUid;
 
+    @Column(name = "fcmToken")
+    private String fcmToken;
+
+    @Column(name = "fechaActualizacionToken")
+    private Timestamp fechaActualizacionToken;
+
 }

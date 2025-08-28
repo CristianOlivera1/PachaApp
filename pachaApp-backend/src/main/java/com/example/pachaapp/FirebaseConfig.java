@@ -15,7 +15,6 @@ import jakarta.annotation.PostConstruct;
 @Configuration
 public class FirebaseConfig {
 
-    
     @PostConstruct
     public void initialize() {
         try {
@@ -26,7 +25,6 @@ public class FirebaseConfig {
                     .getResourceAsStream("firebase-service-account.json");
                 
                 if (serviceAccount == null) {
-                    System.err.println("ERROR: No se encontró firebase-service-account.json en resources/");
                     System.err.println("Descarga el archivo desde Firebase Console > Project Settings > Service accounts");
                     throw new IOException("Archivo firebase-service-account.json no encontrado");
                 }

@@ -27,6 +27,9 @@ public class BusinessActivity {
     @Autowired
     private RepoUser repoUser;
     
+    @Autowired
+    private BusinessNotification businessNotification;
+    
     @Transactional
     public DtoActivity createActivity(DtoActivity dtoActivity) throws Exception {
         // Validar que el usuario existe
@@ -63,6 +66,15 @@ public class BusinessActivity {
         tActivity.setFechaActualizacion(now);
         
         repoActivity.save(tActivity);
+        
+        // Enviar notificación de nueva actividad
+        try {
+            businessNotification.sendActivityCreationNotification(dtoActivity.getIdUsuario(), 
+                dtoActivity.getDescripcion(), dtoActivity.getFechaActividad());
+        } catch (Exception e) {
+            // Log error pero no fallar la creación de la actividad
+            System.err.println("Error enviando notificación de creación de actividad: " + e.getMessage());
+        }
         
         dtoActivity.setIdActividad(activityId);
         dtoActivity.setEstado("iniciado");
@@ -201,9 +213,9 @@ public class BusinessActivity {
         
         return convertToDto(tActivity);
     }
-    
-    // Método programado para ejecutarse cada hora y marcar como concluidas las actividades vencidas
-    @Scheduled(fixedRate = 3600000) // Ejecutar cada hora (3600000 ms)
+
+    // Método programado para ejecutarse cada minuto y marcar como concluidas las actividades vencidas
+    @Scheduled(fixedRate = 60000) // Ejecutar cada minuto (60000 ms)
     @Transactional
     public void markExpiredActivitiesAsCompleted() {
         List<TActivity> expiredActivities = repoActivity.findActivitiesExpired();
@@ -230,7 +242,6 @@ public class BusinessActivity {
         dto.setFechaRegistro(tActivity.getFechaRegistro());
         dto.setFechaActualizacion(tActivity.getFechaActualizacion());
         
-        // Agregar información del usuario si está disponible
         if (tActivity.getUsuario() != null) {
             dto.setNombreUsuario(tActivity.getUsuario().getNombre());
             dto.setApellidoUsuario(tActivity.getUsuario().getApellido());

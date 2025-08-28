@@ -67,4 +67,21 @@ public interface ApiService {
             @Path("idActividad") String idActividad,
             @Query("idUsuario") String idUsuario
     );
+
+    // Endpoint para actualizar token FCM
+    @POST("user/fcm-token")
+    Call<ApiResponse<String>> updateFCMToken(@Body FCMTokenRequest request);
+
+    //busqueda
+    @FormUrlEncoded
+    @POST("busqueda/create")
+    Call<ApiResponse<Busqueda>> createBusqueda(
+            @Field("idUsuario") String idUsuario,
+            @Field("ciudad") String ciudad
+    );
+
+    @GET("busqueda/user/{idUsuario}")
+    Call<ApiResponse<List<Busqueda>>> getBusquedaRecienteByUser(
+            @Path("idUsuario") String idUsuario
+    );
 }

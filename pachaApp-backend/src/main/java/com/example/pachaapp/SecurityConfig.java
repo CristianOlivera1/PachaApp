@@ -12,7 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/oauth2/**","/user/**","/activity/**","/auth/firebase/**").permitAll()
+                        .requestMatchers("/oauth2/**","/user/**","/activity/**","/auth/firebase/**","/busqueda/**").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }

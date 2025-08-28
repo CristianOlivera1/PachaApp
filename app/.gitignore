@@ -1,3 +1,5 @@
 /build
 google-services.json
 src/main/java/com/example/pachaapp/clas/WeatherApiService.java
+src/main/java/com/example/pachaapp/BuscarActivity.java
+src/main/java/com/example/pachaapp/MainActivity.java

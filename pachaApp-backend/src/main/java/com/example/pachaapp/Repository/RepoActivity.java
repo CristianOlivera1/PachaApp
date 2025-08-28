@@ -1,7 +1,6 @@
 package com.example.pachaapp.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,5 +28,13 @@ public interface RepoActivity extends JpaRepository<TActivity, String> {
     // Buscar actividades de un usuario ordenadas por fecha
     @Query("SELECT a FROM TActivity a WHERE a.idUsuario = :idUsuario ORDER BY a.fechaActividad DESC")
     List<TActivity> findByIdUsuarioOrderByFechaActividadDesc(@Param("idUsuario") String idUsuario);
+    
+    // Buscar actividades que empiezan en la próxima hora (para recordatorios)
+ @Query("SELECT a FROM TActivity a WHERE a.estado = 'iniciado' AND a.fechaActividad BETWEEN CURRENT_TIMESTAMP AND (CURRENT_TIMESTAMP + 1 HOUR)")
+    List<TActivity> findActivitiesStartingInNextHour();
+    
+    // Buscar actividades programadas para mañana
+    @Query("SELECT a FROM TActivity a WHERE a.estado = 'iniciado' AND DATE(a.fechaActividad) = DATE(CURRENT_TIMESTAMP + 1 DAY)")
+    List<TActivity> findActivitiesForTomorrow();
     
 }

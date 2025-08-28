@@ -1,9 +1,13 @@
 # Aplicación Móvil Meteorológica 'PachaApp'
-
+<img width="2454" height="1380" alt="screenshot_1x_postspark_2025-08-28_16-28-45S (1)" src="https://github.com/user-attachments/assets/bf34edb9-5c6b-4a3c-ab23-c1fd0d9f9f9e" />
 
 ##  Descripción del Proyecto
 
 **PachaApp** es una aplicación móvil desarrollada con Android Studio (Java) como frontend y Spring Boot (Java) como backend, ofreciendo un sistema completo de gestión de actividades con información meteorológica contextual.
+
+## Diseño Figma [link](https://www.figma.com/design/eGxQkBxOp4iZK3LM1Tg7FM/PachaApp?node-id=2-0&p=f&t=jtrbeY1HXFbmyDFt-0)
+
+## Modelo relacional de la Base de datos [link](https://app.chartdb.io/d/9725b43ad400)
 
 ## Tecnologías Utilizadas
 
